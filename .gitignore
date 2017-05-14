@@ -8,3 +8,9 @@
 target/
 .idea/**/
 .idea/
+
+.classpath
+.project
+.settings
+
+*.iml
