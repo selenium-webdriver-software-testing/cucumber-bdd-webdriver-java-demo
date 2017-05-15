@@ -16,11 +16,15 @@ public class DepartmentPage {
 	
 	//PROPERTIES
 	public static WebElement getAddToCartButton(WebDriver driver){
-		return driver.findElement(By.className("btn-add-to-cart"));
+		return driver.findElement(By.xpath("//*[@id=\"skuSelection\"]/input[3]"));
+	}
+
+	public static WebElement getTheFirstItem(WebDriver driver){
+		return driver.findElement(By.xpath("//*[@id=\"gridView\"]/li/ul[1]/li[1]/div[2]/a"));
 	}
 	
 	public static WebElement getShoppingTotal(WebDriver driver){
-		return driver.findElement(By.className("estTotals"));
+		return driver.findElement(By.className("total-price"));
 	}
 	
 	//ACTIONS
@@ -36,11 +40,15 @@ public class DepartmentPage {
         }
 		return driver;
     }
-	
+	public static WebElement getViewShoppingBagButton(WebDriver driver){
+		return driver.findElement(By.id("viewShoppingBag"));
+	}
 	public ShoppingBagPage AddProductToShoppingBag() throws InterruptedException {
         try {
+        	DepartmentPage.getTheFirstItem(driver).click();
         	DepartmentPage.getAddToCartButton(driver).click();
-        	if (driver.getCurrentUrl().toLowerCase().contains("http://cart4.barnesandnoble.com")){
+        	DepartmentPage.getViewShoppingBagButton(driver).click();
+        	if (driver.getCurrentUrl().toLowerCase().contains("https://www.barnesandnoble.com/checkout/")){
         		try{
         			DepartmentPage.getShoppingTotal(driver).isDisplayed();
         			System.out.println("Products added to shopping bag");
@@ -48,7 +56,7 @@ public class DepartmentPage {
             		System.out.println("No products added to shopping bag");
             	}
         	}
-        			
+
         } catch (RuntimeException e) {
             takeScreenShot(e, "searchError");
         }

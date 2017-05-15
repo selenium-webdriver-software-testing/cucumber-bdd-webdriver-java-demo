@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -33,7 +34,7 @@ public class CheckoutStepDefinitions {
     private CheckoutPage checkoutPage;
     private MyHashMap myMap = new MyHashMap();
     
-    @Before
+    @Given("^I have chrome browser opened$")
     public void prepare() throws MalformedURLException {
     	
     	String url = "";
@@ -48,17 +49,14 @@ public class CheckoutStepDefinitions {
     
     @After
     public void cleanUp() {
-        driver.close();
-        try{
-        	if(driver!=null) driver.quit();
-        }catch(Exception ignore){}
+        driver.quit();
     }
     
     @Given("^User added products to shopping bag$")
     public void addProductsToShoppingBag() throws Throwable {
     	hp = new HomePage(driver);
     	departmentPage = hp.SelectADepartment("Books");
-    	driver = departmentPage.SelectDeptSubCategory(driver,"Featured New Arrivals");
+    	driver = departmentPage.SelectDeptSubCategory(driver,"B&N Classics");
     	shoppingbagPage = departmentPage.AddProductToShoppingBag();
     }
     

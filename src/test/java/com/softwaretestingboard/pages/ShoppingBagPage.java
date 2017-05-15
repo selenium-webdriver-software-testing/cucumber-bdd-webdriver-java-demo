@@ -32,7 +32,7 @@ public class ShoppingBagPage {
 	}
 	
 	public static WebElement ContinueCheckoutButton(WebDriver driver){
-		return driver.findElement(By.className("continueCheckout"));
+		return driver.findElement(By.xpath("//*[@id=\"checkoutForm\"]/a"));
 	}
 	
 	//ACTIONS

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.Augmenter;
 
 import java.io.File;
@@ -38,7 +40,7 @@ public class HomePage {
 		return driver.findElement(By.id("quick-search-button"));
 	}
 	public static WebElement getTopNavMenu(WebDriver driver){
-		return driver.findElement(By.id("bn-nav-global"));
+		return driver.findElement(By.id("primaryNav"));
 	}
 	
 	//ACTIONS
@@ -60,8 +62,10 @@ public class HomePage {
 			for (WebElement li : topNavMenuItems) {
 				if (li.getText().equals(department_input)) {
 					WebElement anchor = li.findElement(By.tagName("a"));
-					anchor.click();	
-				    break;
+					Actions actions = new Actions(driver);
+					Action action = actions.moveToElement(anchor).build();
+					action.perform();
+					break;
 			    } 
 			}
         } catch (RuntimeException e) {

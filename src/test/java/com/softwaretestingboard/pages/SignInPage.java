@@ -18,19 +18,24 @@ public class SignInPage {
         this.driver = driver;
         try {
 			this.driver = driver;
+        	String currentWindow = driver.getWindowHandle();
 			this.wait = new WebDriverWait(driver,10);
-			pageHeader = SignInPage.PageHeader(driver).findElement(By.tagName("p")).toString();
-			if (pageHeader.toLowerCase().contains("Sign in or Proceed as Guest")){
+			driver.switchTo().frame(SignInPage.getFrame(driver));
+			pageHeader = SignInPage.PageHeader(driver).toString();
+			if (pageHeader.toLowerCase().contains("Sign In or Checkout As Guest".toLowerCase())){
 				isSignInBagPage = true;
 			}
+			driver.switchTo().window(currentWindow);
         } catch (RuntimeException e) {
-        	throw new IllegalStateException("SignInPage: This is not barnesandnoble.com" + driver.getCurrentUrl());
+        	throw new IllegalStateException("SignInPage: This is not barnesandnoble.com. Actual text: " + pageHeader);
         }
     }
-	
+	private static WebElement getFrame(WebDriver driver){
+		return  driver.findElement(By.xpath("/html/body/div[4]/div/div/div/iframe"));
+	}
 	//Properties
 	public static WebElement PageHeader(WebDriver driver){
-		return driver.findElement(By.id("opSignInHeader"));
+		return driver.findElement(By.id("dialog-title"));
 	}
 	public boolean isSignInPage(){
 		return isSignInBagPage;
@@ -50,7 +55,7 @@ public class SignInPage {
 	}
 	
 	public static WebElement guestCheckoutClicked(WebDriver driver){
-		return driver.findElement(By.name("GuestCheckoutClicked"));
+		return driver.findElement(By.id("guestCheckoutBtn"));
 	}
 	
 	public static WebElement getContinueButton(WebDriver driver){
@@ -70,7 +75,7 @@ public class SignInPage {
 	public CheckoutPage clickBeginGuestCheckout() throws InterruptedException {
         try {
         	SignInPage.guestCheckoutClicked(driver).click();
-        	if (driver.getCurrentUrl().toLowerCase().contains("https://cart4.barnesandnoble.com")){
+        	if (driver.getCurrentUrl().toLowerCase().contains("https://www.barnesandnoble.com/checkout/")){
         		try{
         			// need attention 
         			//DepartmentPage.getShoppingTotal(driver).isDisplayed();

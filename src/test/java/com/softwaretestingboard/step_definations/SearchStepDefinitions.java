@@ -23,7 +23,7 @@ public class SearchStepDefinitions {
     private HomePage hp;
     private String entered_search_keyword;
     private SearchResultPage searchResultPage;
-    @Before
+    //@Before
     public void prepare() throws MalformedURLException {
     	
     	String url = "";
@@ -47,7 +47,7 @@ public class SearchStepDefinitions {
     	// capabillities.setCapability("version", "12.0");	
     }
 
-    @After
+    //@After
     public void cleanUp() {
         driver.close();
         try{
